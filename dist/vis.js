@@ -45641,11 +45641,11 @@ var InfoBox = function (_NodeBase) {
     key: 'setMargins',
     value: function setMargins(options, labelModule) {
       this._setMargins(labelModule);
-      var size = options.font.size / 2;
-      this.margin.top += size;
-      this.margin.bottom += size;
+      var size = 12;
       this.margin.right += size;
       this.margin.left += size;
+      this.margin.top += size / 2;
+      this.margin.bottom += size / 2;
     }
 
     /**
@@ -45665,7 +45665,7 @@ var InfoBox = function (_NodeBase) {
         var dimensions = this.getDimensionsFromLabel(ctx, selected, hover);
 
         this.height = dimensions.height + this.margin.top + this.margin.bottom;
-        this.r = Math.min(this.height / 2 - 6, 15);
+        this.r = 8;
         this.width = dimensions.width + this.margin.right + this.margin.left + this.r * 3;
         this.radius = this.width / 2;
       }
@@ -45688,16 +45688,21 @@ var InfoBox = function (_NodeBase) {
       this.left = x - this.width / 2;
       this.top = y - this.height / 2;
 
-      var v = (0, _assign2['default'])({}, values, { color: "white", font: { color: "red" } });
-      this.initContextForDraw(ctx, v);
+      var boxOptions = (0, _assign2['default'])({}, values, {
+        color: "white",
+        borderColor: selected ? '#97b3c6' : '#cad3d9',
+        borderWidth: selected ? values.borderWidth / 2 : values.borderWidth
+      });
+      var circleOptions = (0, _assign2['default'])({}, values, { borderWidth: 2 });
+      this.initContextForDraw(ctx, boxOptions);
       ctx.roundRect(this.left, this.top, this.width, this.height, values.borderRadius);
-      this.performFill(ctx, v);
+      this.performFill(ctx, boxOptions);
 
-      this.initContextForDraw(ctx, values);
-      ctx.circle(this.margin.left + this.left + this.r, y, this.r);
-      this.performFill(ctx, values);
+      this.initContextForDraw(ctx, circleOptions);
+      ctx.circle(this.margin.left + this.left + this.r, this.top + this.margin.top + this.r, this.r);
+      this.performFill(ctx, circleOptions);
 
-      this.initContextForDraw(ctx, v);
+      this.initContextForDraw(ctx, boxOptions);
       this.updateBoundingBox(x, y, ctx, selected, hover);
       this.labelModule.draw(ctx, this.left + this.textSize.width / 2 + this.margin.left + this.r * 3, this.top + this.textSize.height / 2 + this.margin.top, selected, hover);
     }

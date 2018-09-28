@@ -19,15 +19,29 @@
     var edges = null;
     var network = null;
 
+    const variables = {
+      blueColor: '#0062db',
+      orangeColor: '#e55600',
+      grayColor: '#6c8294',
+      purpleColor: 'purple',
+    }
+
     function draw() {
       nodes = [
-        {id: 4,  label: 'infoBox',     shape: 'infoBox'    },
-        {id: 25, font:{size:30},          label: 'big box',     shape: 'infoBox'    },
-        {id: 33, font:{size:80},          label: 'big box',     shape: 'infoBox'    },
-        {id: 34, font:{size:50},          label: 'big box',     shape: 'infoBox', color: {background: "purple", border: "purple"}}
+        {id: 4,  label: 'Jozef Krnac stolarstvo (2)', shape: 'infoBox', group: 'normal'    },
+        {id: 5,  label: 'Jozef Krnac stolarstvo (2)', shape: 'infoBox', group: 'notLoaded'    },
+        {id: 25, label: 'Jozef Krnac stolarstvo (2)', shape: 'infoBox', group: 'contracts'},
+        {id: 28, label: 'A very long text, only getting longer with every character, which is quite a feat, actually.', shape: 'infoBox', group: 'politContracts'},
+        {id: 33, label: 'Zvaz polnohospodarskych druzstiev a obchodnych spolocnosti Slovenskej republiky (917)', shape: 'infoBox', group: 'politician'    },
+        {id: 34, label: 'big box', shape: 'infoBox', group: 'politTies'}
       ];
 
       edges = [
+        {from: 25, to: 34},
+        {from: 5, to: 34},
+        {from: 5, to: 4},
+        {from: 33, to: 4},
+        {from: 4, to: 28}
       ];
 
       // create a network
@@ -37,13 +51,150 @@
         edges: edges
       };
       var options = {
+        layout: {
+          hierarchical: false,
+        },
+        edges: {
+          arrows: {to: {enabled: false}},
+          color: {color: variables.grayColor},
+          hoverWidth: 0,
+          width: 1,
+        },
         physics: {
-          barnesHut:{gravitationalConstant:-4000}
+          enabled: true,
+          barnesHut: {
+            gravitationalConstant: -3000,
+            centralGravity: 0.3,
+            springLength: 80,
+            springConstant: 0.004,
+            damping: 0.1,
+            avoidOverlap: 0.01,
+          },
+        },
+        interaction: {
+          hover: false,
+          multiselect: true,
         },
         nodes: {
-          color: {border: "#0062db", background: "orange"},
-          borderWidth: 3
-        }
+          value: 1,
+          color: {
+            background: 'white',
+            border: variables.grayColor,
+            highlight: {background: '#f2f5f8', border: variables.grayColor},
+          },
+          font: {
+            size: 15,
+            color: variables.blueColor,
+            strokeWidth: 5,
+            multi: 'md', // enables use of bold/italics
+          },
+          widthConstraint: {maximum: 200},
+          labelHighlightBold: false,
+          shape: 'dot',
+          shapeProperties: {
+            borderRadius: 2,
+          },
+          shadow: {
+            enabled: true,
+            color: 'rgba(187, 198, 206, .5)',
+            size: 30,
+            x: 0,
+            y: 0,
+          },
+          scaling: {
+            min: 10,
+            max: 50,
+          },
+          borderWidth: 2,
+        },
+        groups: {
+          notLoaded: {
+            shapeProperties: {borderDashes: [5, 5]},
+            chosen: {
+              // selected nodes have shadow
+              label: false,
+              node: {
+                label: false,
+              },
+            },
+          },
+          normal: {
+            shapeProperties: {borderDashes: false},
+            color: {
+              border: variables.blueColor,
+              highlight: {background: "white", border: variables.blueColor},
+            },
+            chosen: {
+              // selected nodes have shadow
+              label: false,
+              node: {
+                label: false,
+              },
+            },
+          },
+          contracts: {
+            color: {
+              background: variables.blueColor,
+              border: variables.blueColor,
+              highlight: {background: variables.blueColor, border: variables.blueColor},
+            },
+            shapeProperties: {borderDashes: false},
+            chosen: {
+              // selected nodes have shadow
+              label: false,
+              node: {
+                label: false,
+              },
+            },
+          },
+          politician: {
+            color: {
+              background: variables.purpleColor,
+              border: variables.purpleColor,
+              highlight: {background: variables.purpleColor, border: variables.purpleColor},
+            },
+            font: {color: variables.purpleColor},
+            shapeProperties: {borderDashes: false},
+            chosen: {
+              // selected nodes have shadow
+              label: false,
+              node: {
+                label: false,
+              },
+            },
+          },
+          politTies: {
+            color: {
+              border: variables.orangeColor,
+              highlight: {background: "white", border: variables.orangeColor}
+            },
+            font: {color: variables.orangeColor},
+            shapeProperties: {borderDashes: false},
+            chosen: {
+              // selected nodes have shadow
+              label: false,
+              node: {
+                label: false,
+              },
+            },
+          },
+          politContracts: {
+            color: {
+              background: variables.orangeColor,
+              border: variables.orangeColor,
+              highlight: {background: variables.orangeColor, border: variables.orangeColor},
+            },
+            font: {color: variables.orangeColor},
+            shapeProperties: {borderDashes: false},
+            chosen: {
+              // selected nodes have shadow
+              label: false,
+              node: {
+                label: false,
+              },
+            },
+          },
+        },
       };
       network = new vis.Network(container, data, options);
     }
