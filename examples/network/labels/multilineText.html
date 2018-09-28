@@ -20,8 +20,8 @@
       var nodes = [
         {id: 1, label: 'Node in\nthe center', shape: 'text', font:{strokeWidth:4}},
         {id: 2, label: 'Node\nwith\nmultiple\nlines', shape: 'circle'},
-        {id: 3, label: 'This is a lot of text\nbut luckily we can spread\nover multiple lines', shape: 'database'},
-        {id: 4, label: 'This is text\non multiple lines', shape: 'box'},
+        {id: 3, label: 'This is a lot of text but luckily we can spread over multiple lines, so that it just doesnt clutter the whole screen like whats up with that dude, you better learn how to spread the words over several lines.', shape: 'database'},
+        {id: 4, label: 'This is text\non multiple lines', shape: 'infoBox'},
         {id: 5, label: 'Little text', shape: 'ellipse'}
       ];
 
@@ -39,14 +39,41 @@
         nodes: nodes,
         edges: edges
       };
-      var options = {};
+      var options = {
+        nodes: {
+          widthConstraint: {maximum: 150},
+          color: {
+            background: 'white',
+            border: 'grey',
+            highlight: {background: '#f2f5f8', border: 'grey'},
+          },
+          font: {
+            size: 15,
+            color: 'blue',
+            strokeWidth: 5,
+            multi: 'md', // enables use of bold/italics
+          },
+          labelHighlightBold: false,
+          shadow: {
+            enabled: false,
+            color: 'rgba(0,0,0,0.5)',
+            size: 30,
+            x: 0,
+            y: 0,
+          },
+          scaling: {
+            min: 10,
+            max: 50,
+          },
+        },
+      };
       var network = new vis.Network(container, data, options);
     }
   </script>
-  
+
 </head>
 
 <body onload="draw()">
-<div id="mynetwork"></div>
+  <div id="mynetwork"></div>
 </body>
 </html>
