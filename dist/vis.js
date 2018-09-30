@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.21.0
- * @date    2018-09-28
+ * @date    2018-09-30
  *
  * @license
  * Copyright (C) 2011-2017 Almende B.V, http://almende.com
@@ -45690,8 +45690,7 @@ var InfoBox = function (_NodeBase) {
 
       var boxOptions = (0, _assign2['default'])({}, values, {
         color: "white",
-        borderColor: selected ? '#97b3c6' : '#cad3d9',
-        borderWidth: selected ? values.borderWidth / 2 : values.borderWidth
+        borderColor: selected ? '#97b3c6' : '#cad3d9'
       });
       var circleOptions = (0, _assign2['default'])({}, values, { borderWidth: 2 });
       this.initContextForDraw(ctx, boxOptions);
